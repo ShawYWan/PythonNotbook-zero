@@ -1,0 +1,60 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon May 13 12:30:29 2019
+
+@author: wan6707844
+"""
+"""
+spyder 3.7  win10  ANACONDA
+"""
+
+"""
+import module
+"""
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+"""
+Fristly, the data need to preproessing.It usually contains six steps.
+1.Import library
+2.Read and observe the data
+3.Process the empty/repeat value.
+4.Transform the string value to number.For example male,female replaced by 1,2
+5.Spilt the date to two part as train and test datasets.
+6.Normalize the data?
+"""
+dataset = pd.read_excel('one.xlsx')        # Also can using pd.read_csv()
+dataset = dataset.fillna(round(dataset.mean(),0))  #Using a integer mean value to fill in the empty value.Also can using Impter from sklearn.preprocesing to do.
+# dataset = dataset.dropna() #delete a row where is NaN.
+print(dataset)  #Observe the data.
+
+X = dataset.iloc[:,:1].values   # I make mistake in thie place.[:,:1] get a  colum vector.
+Y = dataset.iloc[:,1].values    # [:,1] get a row vevctor
+print(X,Y)
+
+from sklearn.model_selection import train_test_split
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0,random_state = 0) #split the data. Usually test_size = 0.2
+
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor = regressor.fit(X_train,Y_train) # Fit the modle
+
+#Y_pred = regressor.predict(X_test)  # X predict Y
+
+"""
+Polt the result. R is easy to do this with a line code.
+"""
+plt.scatter(X_train,Y_train,color='red')
+plt.plot(X_train,regressor.predict(X_train),color = 'blue')
+plt.show()
+
+plt.scatter(X_test,Y_test,color='red')
+plt.plot(X_train,regressor.predict(X_train),color = 'blue')
+plt.show()
+
+"""
+Question:
+1.This code does not output the linear equation Y=aX+b. Comparaed with statistics, machine learning maybe focused on the predict.
+2.How to deal with many pairwise X,Y. This is very easy in SPSS. 
+"""
